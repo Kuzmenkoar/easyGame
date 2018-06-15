@@ -1,7 +1,8 @@
 import {combineReducers} from 'redux'
-import {routerReducer as router} from 'connected-react-router'
-// import {reducer as form} from 'redux-form'
+import { reducer as form } from 'redux-form'
+import authorizationReducer, {moduleName as authorization} from '../ducks/authorization'
 
 export default combineReducers({
-    router
+    form,
+    [authorization]: authorizationReducer
 })

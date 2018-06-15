@@ -4,3 +4,10 @@ body {
     font-family: sans-serif;
   }
   
+  .df {
+    display: flex;
+  }
+
+  .jcsa {
+    justify-content: space-around;
+  }
