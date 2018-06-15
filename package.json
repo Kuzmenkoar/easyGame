@@ -7,7 +7,10 @@
     "email-validator": "^1.1.1",
     "firebase": "^4.3.0",
     "history": "^4.7.2",
+    "husky": "^0.14.3",
     "immutable": "^3.8.1",
+    "lint-staged": "^7.2.0",
+    "prettier": "^1.13.5",
     "react": "^15.6.1",
     "react-dnd": "^2.5.1",
     "react-dnd-html5-backend": "^2.5.1",
@@ -32,6 +35,11 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "precommit": "lint-staged",
+    "format": "prettier --write **/*.js"
+  },
+  "lint-staged": {
+    "*.{js}": ["prettier --write", "git add"]
   }
 }
