@@ -1,24 +1,31 @@
 import React, { Component } from 'react'
-import {Route, Link} from 'react-router-dom'
+import {Route} from 'react-router-dom'
 import {connect} from 'react-redux'
 
-import SignIn from './authorization/SignIn'
-import SignUp from './authorization/SignUp';
+import Header from './header'
+import SignInForm from './authorization/SignInForm'
+import SignUpForm from './authorization/SignUpForm';
+
+import {signIn} from '../ducks/authorization'
 
 class Root extends Component {
+  handleSignIn = ({login, password}) => this.props.signIn(login, password)
+
   render() {
     return (
       <div>
-        Hello
-        <ul>
-            <li><Link to='/signIn'>SignIn</Link></li>
-            <li><Link to='/signUp'>SignUp</Link></li>
-        </ul>
-        <Route path='/signIn' component={SignIn} />
-        <Route path='/signUp' component={SignUp} />
+        <Header />
+        <Route path='/signIn' render={() => <SignInForm onSubmit={this.handleSignIn} />} />
+        <Route path='/signUp' component={SignUpForm} />
       </div>
     )
   }
 }
 
-export default connect(null, null, null, {pure: false})(Root)
+const mapStateToProps = ({ router }) => {
+  return {
+    router // pure: false
+  }
+}
+
+export default connect(mapStateToProps, { signIn })(Root)
