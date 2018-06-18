@@ -3,19 +3,20 @@ import { Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import Header from './header'
+import AuthorizationContainer from './authorization/AuthorizationContainer'
 import SignInForm from './authorization/SignInForm'
 import SignUpForm from './authorization/SignUpForm'
 
 import { signIn } from '../ducks/authorization'
 
 class Root extends Component {
-  handleSignIn = ({ login, password }) => this.props.signIn(login, password)
+  handleSignIn = ({ email, password }) => this.props.signIn(email, password)
 
   render() {
     return (
       <div>
         <Header />
-        <Route path="/signIn" render={() => <SignInForm onSubmit={this.handleSignIn} />} />
+        <Route path="/signIn" render={() => <AuthorizationContainer><SignInForm onSubmit={this.handleSignIn} /></AuthorizationContainer>} />
         <Route path="/signUp" component={SignUpForm} />
       </div>
     )

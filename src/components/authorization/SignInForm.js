@@ -4,8 +4,8 @@ import { Field, reduxForm } from 'redux-form'
 const SignInForm = ({ handleSubmit }) => (
   <form onSubmit={handleSubmit}>
     <div>
-      <label htmlFor="login">Login</label>
-      <Field name="login" component="input" type="text" />
+      <label htmlFor="email">Email</label>
+      <Field name="email" component="input" type="text" />
     </div>
     <div>
       <label htmlFor="password">Password</label>
