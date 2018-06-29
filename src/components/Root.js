@@ -7,15 +7,21 @@ import SignInForm from './authorization/SignInForm'
 import SignUpForm from './authorization/SignUpForm'
 
 import { signIn } from '../ducks/authorization'
+import ProtectedRoute from './common/protectedRoute'
+import PeopleList from './people/PeopleList'
 
 class Root extends Component {
-  handleSignIn = ({ login, password }) => this.props.signIn(login, password)
-
   render() {
     return (
       <div>
         <Header />
-        <Route path="/signIn" render={() => <SignInForm onSubmit={this.handleSignIn} />} />
+        <ProtectedRoute exact path="/" component={PeopleList} />
+        <Route
+          path="/signIn"
+          render={() => (
+              <SignInForm onSubmit={this.props.signIn} />
+          )}
+        />
         <Route path="/signUp" component={SignUpForm} />
       </div>
     )

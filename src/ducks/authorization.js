@@ -1,14 +1,19 @@
 import { Record } from 'immutable'
-import { all, put, take } from 'redux-saga/effects'
+import { all, put, take, call } from 'redux-saga/effects'
+import firebase from 'firebase'
+import { eventChannel } from 'redux-saga'
 
 export const moduleName = 'authorization'
 export const SIGN_IN_REQUEST = 'SIGN_IN_REQUEST'
 export const SIGN_IN_SUCCESS = 'SIGN_IN_SUCCESS'
 export const SIGN_IN_ERROR = 'SIGN_IN_ERROR'
+export const SIGN_OUT_REQUEST = 'SIGN_OUT_REQUEST'
+export const SIGN_OUT_SUCCESS = 'SIGN_OUT_SUCCESS'
+export const CLEAR_ERROR = 'CLEAR_ERROR'
 
 const ReducerRecord = Record({
   user: null,
-  loading: null,
+  isLoading: null,
   error: null,
 })
 
@@ -17,35 +22,41 @@ export default function reducer(state = new ReducerRecord(), action) {
 
   switch (type) {
     case SIGN_IN_REQUEST:
-      return state.set('loading', true)
+    case SIGN_OUT_REQUEST:
+      return state.set('isLoading', true)
     case SIGN_IN_SUCCESS:
-      return state.set('user', payload).set('loading', false)
+    case SIGN_OUT_SUCCESS:
+      return state.set('user', payload).set('isLoading', false)
     case SIGN_IN_ERROR:
-      return state.set('error', error)
+    case CLEAR_ERROR:
+      return state.set('error', error).set('isLoading', false)
     default:
       return state
   }
 }
 
-export const signIn = (login, password) => {
-  return {
-    type: SIGN_IN_REQUEST,
-    payload: { login, password },
-  }
-}
+export const signIn = (user) => ({
+  type: SIGN_IN_REQUEST,
+  payload: user
+})
+
+export const signOut = () => ({
+  type: SIGN_OUT_REQUEST
+})
+
+export const clearError = () => ({
+  type: CLEAR_ERROR,
+})
 
 export const signInSaga = function*() {
+  const auth = firebase.auth()
+
   while (true) {
     const action = yield take(SIGN_IN_REQUEST)
+    const { email, password } = action.payload
 
     try {
-      yield put({
-        type: SIGN_IN_SUCCESS,
-        payload: {
-          user: action.payload.login,
-          date: Date.now(),
-        },
-      })
+      yield call([auth, auth.signInWithEmailAndPassword], email, password)
     } catch (error) {
       yield put({
         type: SIGN_IN_ERROR,
@@ -55,6 +66,49 @@ export const signInSaga = function*() {
   }
 }
 
+export const signOutSaga = function*() {
+  const auth = firebase.auth()
+
+  while (true) {
+    yield take(SIGN_OUT_REQUEST)
+
+    try {
+      yield call([auth, auth.signOut])
+    } catch (error) {
+      yield put({
+        type: SIGN_IN_ERROR,
+        error,
+      })
+    }
+  }
+}
+
+const createAuthChannel = () =>
+  eventChannel(emit => firebase.auth().onAuthStateChanged(user => emit({ user })))
+
+export const userAuthorizationStatus = function*() {
+  const chan = yield call(createAuthChannel)
+
+  while (true) {
+    const data = yield take(chan)
+    const { user } = data
+
+    console.log(data)
+
+    if (user) {
+      yield put({
+        type: SIGN_IN_SUCCESS,
+        payload: user,
+      })
+    } else {
+      yield put({
+        type: SIGN_OUT_SUCCESS,
+        payload: user,
+      })
+    }
+  }
+}
+
 export const saga = function*() {
-  yield all([signInSaga()])
+  yield all([signInSaga(), userAuthorizationStatus(), signOutSaga()])
 }
