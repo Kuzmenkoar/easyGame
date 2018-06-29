@@ -1,33 +1,41 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import Loader from '../common/loader'
 import { connect } from 'react-redux'
+import { clearError } from '../../ducks/authorization'
 
 class AuthorizationContainer extends Component {
-    getDerivedStateFromProps(props) {
-        const { error } = props
-        if (error) {
-            alert(error.message)
-        }
+  state = {}
+
+  static getDerivedStateFromProps(props) {
+    const { error, clearError } = props
+    if (error) {
+      alert(error.message)
+      clearError()
     }
 
-    render () {
-        const { children, isLoading } = this.props
-            if (isLoading) {
-                return <div style={{ height: '200px', position: 'relative' }}><Loader /></div>
-              }
-        
-            return children
+    return null
+  }
+
+  render() {
+    const { children, isLoading } = this.props
+    if (isLoading) {
+      return (
+        <div style={{ height: '200px', position: 'relative' }}>
+          <Loader />
+        </div>
+      )
     }
 
-} 
+    return children
+  }
+}
 
-const mapStateToProps = ({authorization: { isLoading, error }}) => ({
-    isLoading,
-    error
+const mapStateToProps = ({ authorization: { isLoading, error } }) => ({
+  isLoading,
+  error,
 })
 
-
-export default connect(mapStateToProps)(
-    AuthorizationContainer
-)
-  
+export default connect(
+  mapStateToProps,
+  { clearError },
+)(AuthorizationContainer)

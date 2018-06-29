@@ -2,12 +2,26 @@ body {
     margin: 0;
     padding: 0;
     font-family: sans-serif;
-  }
-  
-  .df {
-    display: flex;
-  }
+}
 
-  .jcsa {
-    justify-content: space-around;
-  }
+.df {
+  display: flex;
+}
+
+.jcsa {
+  justify-content: space-around;
+}
+.jcc {
+    justify-content: center;
+}
+.aic {
+    align-items: center;
+}
+
+.un-authorized {
+    height: 500px;
+}
+
+.ml20 {
+    margin-left: 20px;
+}
