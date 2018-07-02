@@ -2,15 +2,20 @@ import React, { Component } from 'react'
 import Loader from '../common/loader'
 import { connect } from 'react-redux'
 import { clearError } from '../../ducks/authorization'
+import history from '../../history'
 
 class AuthorizationContainer extends Component {
   state = {}
 
   static getDerivedStateFromProps(props) {
-    const { error, clearError } = props
+    const { error, clearError, isAuthorized } = props
     if (error) {
       alert(error.message)
       clearError()
+    }
+
+    if (isAuthorized) {
+      history.push('/')
     }
 
     return null
@@ -30,8 +35,9 @@ class AuthorizationContainer extends Component {
   }
 }
 
-const mapStateToProps = ({ authorization: { isLoading, error } }) => ({
+const mapStateToProps = ({ authorization: { isLoading, error, user } }) => ({
   isLoading,
+  isAuthorized: !!user,
   error,
 })
 
