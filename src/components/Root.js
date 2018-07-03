@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
-import { Route } from 'react-router-dom'
+import { Route, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import Header from './header'
+import Header from './common/header'
 import SignInForm from './authorization/SignInForm'
 import SignUpForm from './authorization/SignUpForm'
 
 import { signIn, signUp } from '../ducks/authorization'
 import ProtectedRoute from './common/protectedRoute'
-import PeopleList from './people/PeopleList'
+import PeopleModule from './people/PeopleModule'
 import Loader from './common/loader'
 
 class Root extends Component {
@@ -22,7 +22,7 @@ class Root extends Component {
     return (
       <div>
         <Header />
-        <ProtectedRoute exact path="/" component={PeopleList} />
+        <ProtectedRoute path="/people" component={PeopleModule} />
         <Route
           path="/signIn"
           render={() => (
@@ -34,6 +34,7 @@ class Root extends Component {
           render={() => (
             <SignUpForm onSubmit={this.props.signUp} />
         )} />
+        <Redirect exact from='/' to='/people'/>
       </div>
     )
   }

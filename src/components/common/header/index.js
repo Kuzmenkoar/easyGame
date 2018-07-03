@@ -3,7 +3,7 @@ import { connect} from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import './index.css'
-import { signOut } from '../../ducks/authorization'
+import { signOut } from '../../../ducks/authorization'
 
 class Header extends Component {
   render() {
