@@ -1,13 +1,13 @@
 import firebase from 'firebase'
 
-export const appName = 'farebase-first-run'
+export const appName = 'fir-lovkikman'
 export const firebaseConfig = {
-  apiKey: 'AIzaSyDjA6CeIHuni5lNm4ML1b-TSxJltsYUO8g',
+  apiKey: 'AIzaSyC363pqvg8Et05Rq9k7t3HcnTkOMywrPc4',
   authDomain: `${appName}.firebaseapp.com`,
   databaseURL: `https://${appName}.firebaseio.com`,
   projectId: appName,
   storageBucket: `${appName}.appspot.com`,
-  messagingSenderId: '536668972247',
+  messagingSenderId: '762329996833',
 }
 
 firebase.initializeApp(firebaseConfig)
