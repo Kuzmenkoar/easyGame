@@ -40,7 +40,7 @@
     "format": "prettier --write **/*.js"
   },
   "lint-staged": {
-    "*.{js}": [
+    "*.js": [
       "prettier --write",
       "git add"
     ]
