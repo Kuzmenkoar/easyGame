@@ -17,7 +17,7 @@ const ReducerRecord = Record({
   user: null,
   isLoading: true,
   error: null,
-  firstContact: false
+  firstContact: false,
 })
 
 export default function reducer(state = new ReducerRecord(), action) {
@@ -29,7 +29,10 @@ export default function reducer(state = new ReducerRecord(), action) {
       return state.set('isLoading', true)
     case SIGN_IN_SUCCESS:
     case SIGN_OUT_SUCCESS:
-      return state.set('user', payload).set('isLoading', false).set('firstContact', true)
+      return state
+        .set('user', payload)
+        .set('isLoading', false)
+        .set('firstContact', true)
     case SIGN_IN_ERROR:
     case CLEAR_ERROR:
       return state.set('error', error).set('isLoading', false)
@@ -38,18 +41,18 @@ export default function reducer(state = new ReducerRecord(), action) {
   }
 }
 
-export const signIn = (data) => ({
+export const signIn = data => ({
   type: SIGN_IN_REQUEST,
-  payload: data
+  payload: data,
 })
 
 export const signOut = () => ({
-  type: SIGN_OUT_REQUEST
+  type: SIGN_OUT_REQUEST,
 })
 
-export const signUp = (data) => ({
+export const signUp = data => ({
   type: SIGN_UP_REQUEST,
-  payload: data
+  payload: data,
 })
 
 export const clearError = () => ({
@@ -86,10 +89,9 @@ export const signUpSaga = function*() {
     } catch (error) {
       yield put({
         type: SIGN_UP_ERROR,
-        error
+        error,
       })
     }
-
   }
 }
 

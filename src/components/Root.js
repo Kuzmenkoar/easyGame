@@ -14,9 +14,11 @@ import Loader from './common/loader'
 class Root extends Component {
   render() {
     if (!this.props.firstContact) {
-      return  <div style={{ height: '200px', position: 'relative' }}>
-        <Loader />
-      </div>
+      return (
+        <div style={{ height: '200px', position: 'relative' }}>
+          <Loader />
+        </div>
+      )
     }
 
     return (
@@ -24,18 +26,9 @@ class Root extends Component {
         <Header />
         <Switch>
           <ProtectedRoute path="/people" component={PeopleModule} />
-          <Route
-            path="/signIn"
-            render={() => (
-              <SignInForm onSubmit={this.props.signIn} />
-            )}
-          />
-          <Route
-            path="/signUp"
-            render={() => (
-              <SignUpForm onSubmit={this.props.signUp} />
-          )} />
-          <Redirect exact from='/' to='/people'/>
+          <Route path="/signIn" render={() => <SignInForm onSubmit={this.props.signIn} />} />
+          <Route path="/signUp" render={() => <SignUpForm onSubmit={this.props.signUp} />} />
+          <Redirect exact from="/" to="/people" />
         </Switch>
       </div>
     )

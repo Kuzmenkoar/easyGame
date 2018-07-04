@@ -9,8 +9,8 @@ class PeopleList extends Component {
     this.props.fetchAllPeople()
   }
 
-  render () {
-    const { isLoading, entities } = this.props;
+  render() {
+    const { isLoading, entities } = this.props
 
     if (isLoading) {
       return <Loader />
@@ -27,20 +27,23 @@ class PeopleList extends Component {
           if (el === 'uid') {
             return null
           }
-          return (<div className="ml20" key={el}>
-            {row[el]}
+          return (
+            <div className="ml20" key={el}>
+              {row[el]}
             </div>
           )
-        })
-        }
+        })}
       </div>
     ))
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   isLoading: state.people.isLoading,
-  entities: allPeopleSelector(state)
+  entities: allPeopleSelector(state),
 })
 
-export default connect(mapStateToProps, { fetchAllPeople })(PeopleList)
+export default connect(
+  mapStateToProps,
+  { fetchAllPeople },
+)(PeopleList)

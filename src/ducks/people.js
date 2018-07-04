@@ -1,7 +1,7 @@
 import { Record, OrderedMap } from 'immutable'
 import { all, put, call, takeEvery } from 'redux-saga/effects'
 import firebase from 'firebase'
-import {createSelector} from 'reselect'
+import { createSelector } from 'reselect'
 
 import { fbDatatoEntities } from './utils'
 import history from '../history'
@@ -16,18 +16,18 @@ export const FETCH_ALL_PEOPLE_ERROR = 'FETCH_ALL_PEOPLE_ERROR'
 const ReducerRecord = Record({
   isLoading: false,
   error: false,
-  entities: new OrderedMap({})
+  entities: new OrderedMap({}),
 })
 
 const PersonRecord = Record({
   uid: null,
   name: null,
   surname: null,
-  phone: null
+  phone: null,
 })
 
-export default function reducer (state = new ReducerRecord(), action) {
-  const { type, payload, error } = action;
+export default function reducer(state = new ReducerRecord(), action) {
+  const { type, payload, error } = action
 
   switch (type) {
     case ADD_PEOPLE_ITEM_REQUEST:
@@ -35,30 +35,28 @@ export default function reducer (state = new ReducerRecord(), action) {
       return state.set('isLoading', true)
 
     case FETCH_ALL_PEOPLE_SUCCESS:
-      return state
-        .set('isLoading', false)
-        .set('entities', fbDatatoEntities(payload, PersonRecord))
+      return state.set('isLoading', false).set('entities', fbDatatoEntities(payload, PersonRecord))
 
     case ADD_PEOPLE_ITEM_ERROR:
     case FETCH_ALL_PEOPLE_ERROR:
-      return state
-        .set('error', error)
-        .set('isLoading', false)
+      return state.set('error', error).set('isLoading', false)
     default:
-      return state;
+      return state
   }
 }
 
 export const stateSelector = state => state[moduleName]
-export const allPeopleSelector = createSelector(stateSelector, state => Object.values(state.entities.toJS()))
+export const allPeopleSelector = createSelector(stateSelector, state =>
+  Object.values(state.entities.toJS()),
+)
 
-export const addPeople = (data) => ({
+export const addPeople = data => ({
   type: ADD_PEOPLE_ITEM_REQUEST,
-  payload: data
+  payload: data,
 })
 
 export const fetchAllPeople = () => ({
-  type: FETCH_ALL_PEOPLE_REQUEST
+  type: FETCH_ALL_PEOPLE_REQUEST,
 })
 
 export const addPeopleSaga = function*(action) {
@@ -71,7 +69,7 @@ export const addPeopleSaga = function*(action) {
   } catch (error) {
     yield put({
       type: ADD_PEOPLE_ITEM_ERROR,
-      error: error
+      error: error,
     })
   }
 }
@@ -84,12 +82,12 @@ export const fetchAllPeopleSaga = function*() {
 
     yield put({
       type: FETCH_ALL_PEOPLE_SUCCESS,
-      payload: data.val()
+      payload: data.val(),
     })
   } catch (error) {
     yield put({
       type: FETCH_ALL_PEOPLE_ERROR,
-      error: error
+      error: error,
     })
   }
 }
@@ -97,6 +95,6 @@ export const fetchAllPeopleSaga = function*() {
 export const saga = function*() {
   yield all([
     takeEvery(ADD_PEOPLE_ITEM_REQUEST, addPeopleSaga),
-    takeEvery(FETCH_ALL_PEOPLE_REQUEST, fetchAllPeopleSaga)
+    takeEvery(FETCH_ALL_PEOPLE_REQUEST, fetchAllPeopleSaga),
   ])
 }

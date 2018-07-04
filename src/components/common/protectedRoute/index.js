@@ -5,18 +5,23 @@ import UnAuthorized from '../unAuthorized'
 
 class ProtectedRoute extends Component {
   render() {
-    const {isAuthorized, ...rest} = this.props;
+    const { isAuthorized, ...rest } = this.props
 
     if (isAuthorized) {
       return <Route {...rest} />
     }
 
-    return <Route {...rest} component={UnAuthorized}/>
+    return <Route {...rest} component={UnAuthorized} />
   }
 }
 
-const mapStateToProps = ({authorization}) => ({
-  isAuthorized: !!authorization.user
+const mapStateToProps = ({ authorization }) => ({
+  isAuthorized: !!authorization.user,
 })
 
-export default connect(mapStateToProps, null, null, {pure: false})(ProtectedRoute)
+export default connect(
+  mapStateToProps,
+  null,
+  null,
+  { pure: false },
+)(ProtectedRoute)

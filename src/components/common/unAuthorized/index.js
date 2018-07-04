@@ -5,8 +5,9 @@ import { connect } from 'react-redux'
 const UnAuthorized = () => (
   <div className="df jcc aic un-authorized">
     Please
-
-    <Link to="/signIn" className='ml20'>SignIn</Link>
+    <Link to="/signIn" className="ml20">
+      SignIn
+    </Link>
   </div>
 )
 

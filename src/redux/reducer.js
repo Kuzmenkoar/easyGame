@@ -6,5 +6,5 @@ import peopleReducer, { moduleName as people } from '../ducks/people'
 export default combineReducers({
   form,
   [authorization]: authorizationReducer,
-  [people]: peopleReducer
+  [people]: peopleReducer,
 })
