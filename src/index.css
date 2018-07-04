@@ -8,9 +8,18 @@ body {
   display: flex;
 }
 
+.fdc {
+    flex-direction: column;
+}
+
 .jcsa {
   justify-content: space-around;
 }
+
+.jcsb {
+    justify-content: space-between;
+}
+
 .jcc {
     justify-content: center;
 }

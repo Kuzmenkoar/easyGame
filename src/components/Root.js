@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Route, Redirect } from 'react-router-dom'
+import { Route, Redirect, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import Header from './common/header'
@@ -22,19 +22,21 @@ class Root extends Component {
     return (
       <div>
         <Header />
-        <ProtectedRoute path="/people" component={PeopleModule} />
-        <Route
-          path="/signIn"
-          render={() => (
-            <SignInForm onSubmit={this.props.signIn} />
-          )}
-        />
-        <Route
-          path="/signUp"
-          render={() => (
-            <SignUpForm onSubmit={this.props.signUp} />
-        )} />
-        <Redirect exact from='/' to='/people'/>
+        <Switch>
+          <ProtectedRoute path="/people" component={PeopleModule} />
+          <Route
+            path="/signIn"
+            render={() => (
+              <SignInForm onSubmit={this.props.signIn} />
+            )}
+          />
+          <Route
+            path="/signUp"
+            render={() => (
+              <SignUpForm onSubmit={this.props.signUp} />
+          )} />
+          <Redirect exact from='/' to='/people'/>
+        </Switch>
       </div>
     )
   }

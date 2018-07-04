@@ -27,7 +27,7 @@ const PeopleForm = ({handleSubmit, isLoading}) => {
   </form>
 }
 
-const mapStateToProps = ({ people: isLoading }) => ({
+const mapStateToProps = ({ people: { isLoading } }) => ({
   isLoading
 });
 
