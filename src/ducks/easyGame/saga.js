@@ -1,6 +1,12 @@
 import { all, put, takeEvery, select } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
-import { INCREASE_SCORE_POINT, SELECT_SQUARE, START_GAME, STEP_TIMEOUT } from './constant'
+import {
+  CHANGE_COLOR,
+  INCREASE_SCORE_POINT,
+  SELECT_SQUARE,
+  START_GAME,
+  STEP_TIMEOUT,
+} from './constant'
 import { closePopupSaga } from '../popup/saga'
 import { showPopup } from '../popup/action'
 
@@ -55,14 +61,28 @@ export const stepTimeoutSaga = function*() {
   }
 }
 
+const possibleColors = ['red', 'blue', 'green']
+
+export const changeColorSaga = function*() {
+  const { currentColor } = yield select(({ easyGame: { game: { color } } }) => ({
+    currentColor: color,
+  }))
+
+  const randomIndex = Math.floor(Math.random() * 2)
+  const nextColor = possibleColors.filter(el => el !== currentColor)[randomIndex]
+
+  yield put({
+    type: CHANGE_COLOR,
+    payload: nextColor,
+  })
+}
+
 export const saga = function*() {
   yield all([
     takeEvery(SELECT_SQUARE, validateSelectedSquareSaga),
-    takeEvery(SELECT_SQUARE, checkForFinishSaga),
-    takeEvery(SELECT_SQUARE, stepTimeoutSaga),
+    takeEvery([SELECT_SQUARE, STEP_TIMEOUT], checkForFinishSaga),
+    takeEvery([SELECT_SQUARE, START_GAME, STEP_TIMEOUT], stepTimeoutSaga),
+    takeEvery([SELECT_SQUARE, START_GAME, STEP_TIMEOUT], changeColorSaga),
     takeEvery(START_GAME, closePopupSaga),
-    takeEvery(START_GAME, stepTimeoutSaga),
-    takeEvery(STEP_TIMEOUT, stepTimeoutSaga),
-    takeEvery(STEP_TIMEOUT, checkForFinishSaga),
   ])
 }

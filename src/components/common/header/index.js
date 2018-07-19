@@ -5,12 +5,13 @@ import './index.scss'
 
 const Header = ({ step }) => <div className="df jcsa header">Round {step}</div>
 
-const mapStateToProps = ({
-  easyGame: {
-    game: { step },
-  },
-}) => ({
-  step: step,
-})
+const mapStateToProps = ({ easyGame }) => {
+  const { step } = easyGame.game
+  const { totalGames } = easyGame.settings
+
+  return {
+    step: step > totalGames ? totalGames : step,
+  }
+}
 
 export default connect(mapStateToProps)(Header)

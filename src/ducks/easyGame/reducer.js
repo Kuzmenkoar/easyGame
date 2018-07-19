@@ -1,6 +1,12 @@
 import { Record } from 'immutable'
 import { combineReducers } from 'redux'
-import { INCREASE_SCORE_POINT, SELECT_SQUARE, START_GAME, STEP_TIMEOUT } from './constant'
+import {
+  CHANGE_COLOR,
+  INCREASE_SCORE_POINT,
+  SELECT_SQUARE,
+  START_GAME,
+  STEP_TIMEOUT,
+} from './constant'
 
 export const moduleName = 'easyGame'
 export const SETTINGS = 'settings'
@@ -21,8 +27,6 @@ const initialState = {
   }),
 }
 
-// const values = ['red', 'blue', 'green']
-
 function settingsReducer(state = new initialState[SETTINGS](), action) {
   const { type } = action
 
@@ -33,7 +37,7 @@ function settingsReducer(state = new initialState[SETTINGS](), action) {
 }
 
 function gameReducer(state = new initialState[GAME](), action) {
-  const { type } = action
+  const { type, payload } = action
 
   switch (type) {
     case START_GAME:
@@ -42,6 +46,9 @@ function gameReducer(state = new initialState[GAME](), action) {
     case STEP_TIMEOUT:
     case SELECT_SQUARE:
       return state.set('step', state.get('step') + 1)
+
+    case CHANGE_COLOR:
+      return state.set('color', payload)
 
     default:
       return state
