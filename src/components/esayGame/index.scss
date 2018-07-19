@@ -1,0 +1,53 @@
+.easyGame {
+  display: flex;
+  flex-direction: column;
+  font-size: 22px;
+
+  &_text {
+    margin: 150px 0;
+    text-align: center;
+
+    &.--red-text {
+      color: red;
+    }
+    &.--blue-text {
+      color: blue;
+    }
+    &.--green-text {
+      color: green;
+    }
+  }
+}
+
+.easyGame-playground {
+  display: flex;
+  justify-content: space-around;
+
+  &_square {
+    width: 25%;
+    height: 300px;
+    line-height: 300px;
+    text-align: center;
+    cursor: pointer;
+
+    &.--red {
+      background-color: red;
+    }
+    &.--blue {
+      background-color: blue;
+    }
+    &.--green {
+      background-color: green;
+    }
+
+    &.--red-text {
+      color: red;
+    }
+    &.--blue-text {
+      color: blue;
+    }
+    &.--green-text {
+    color: green;
+  }
+  }
+}
