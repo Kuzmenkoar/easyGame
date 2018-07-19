@@ -1,24 +1,54 @@
 import React from 'react'
+
 import './index.scss'
-import GameResult from './../gameResult'
+import { connect } from 'react-redux'
+import { selectSquare, startGame } from '../../ducks/easyGame/action'
+import { showPopup } from '../../ducks/popup/action'
 
-const values = ['red', 'blue', 'green']
+class EasyGame extends React.Component {
+  componentDidMount() {
+    // this.props.startGame()
+    this.props.showPopup('gameSettings')
+  }
 
-function easyGame() {
-  const color = values[0]
+  handleClick = e => {
+    this.props.selectSquare(e.target.textContent)
+  }
 
-  return (
-    <div className="easyGame">
-      <h1 className={`easyGame_text --${color}-text`}>{color}</h1>
-      <div className="easyGame_container  easyGame-playground">
-        <div className="easyGame-playground_square --red --green-text">green</div>
-        <div className="easyGame-playground_square --green --blue-text">blue</div>
-        <div className="easyGame-playground_square --blue --red-text">red</div>
+  render() {
+    const { color } = this.props
+
+    return (
+      <div className="easyGame">
+        <h1 className={`easyGame_text --${color}-text`}>{color}</h1>
+        <div className="easyGame_container  easyGame-playground">
+          <div className="easyGame-playground_square --red --green-text" onClick={this.handleClick}>
+            green
+          </div>
+          <div
+            className="easyGame-playground_square --green --blue-text"
+            onClick={this.handleClick}
+          >
+            blue
+          </div>
+          <div className="easyGame-playground_square --blue --red-text" onClick={this.handleClick}>
+            red
+          </div>
+        </div>
       </div>
-
-      <GameResult />
-    </div>
-  )
+    )
+  }
 }
 
-export default easyGame
+const mapStateToProps = ({
+  easyGame: {
+    game: { color },
+  },
+}) => ({
+  color,
+})
+
+export default connect(
+  mapStateToProps,
+  { startGame, selectSquare, showPopup },
+)(EasyGame)
