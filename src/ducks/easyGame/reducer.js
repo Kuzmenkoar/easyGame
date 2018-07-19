@@ -15,7 +15,7 @@ export const RESULT = 'result'
 
 const initialState = {
   [SETTINGS]: Record({
-    totalGames: 2,
+    totalGames: 10,
     timePerGame: 1000,
   }),
   [GAME]: Record({
