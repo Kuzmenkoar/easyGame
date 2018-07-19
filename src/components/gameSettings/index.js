@@ -2,28 +2,32 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import './index.scss'
-import Button from '../common/button'
-import { closePopup } from '../../ducks/popup/action'
 import { startGame } from '../../ducks/easyGame/action'
+import SettingsForm from './SettingsForm'
 
-const GameSettings = ({ closePopup, startGame, totalGames }) => {
+const GameSettings = ({ startGame, totalGames, timePerGame }) => {
   return (
     <div className="game-settings">
-      <h2 className="game-result_title">Your score:</h2>
-      <div className="game-result_score">{totalGames}</div>
-
-      <div className="df jcc">
-        <Button type="default" onClick={startGame} label="Start game" />
-      </div>
+      <h2 className="game-settings_title">Game settings:</h2>
+      <SettingsForm
+        onSubmit={startGame}
+        placeholderTimeout={timePerGame}
+        placeholderTotalGames={totalGames}
+      />
     </div>
   )
 }
 
-const mapStateToProps = ({ easyGame }) => ({
-  totalGames: easyGame.settings.totalGames,
+const mapStateToProps = ({
+  easyGame: {
+    settings: { totalGames, timePerGame },
+  },
+}) => ({
+  totalGames,
+  timePerGame,
 })
 
 export default connect(
   mapStateToProps,
-  { closePopup, startGame },
+  { startGame },
 )(GameSettings)

@@ -28,9 +28,12 @@ const initialState = {
 }
 
 function settingsReducer(state = new initialState[SETTINGS](), action) {
-  const { type } = action
+  const { type, payload } = action
 
   switch (type) {
+    case START_GAME:
+      return state.merge(payload)
+
     default:
       return state
   }

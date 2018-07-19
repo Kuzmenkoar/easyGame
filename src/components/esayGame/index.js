@@ -7,7 +7,6 @@ import { showPopup } from '../../ducks/popup/action'
 
 class EasyGame extends React.Component {
   componentDidMount() {
-    // this.props.startGame()
     this.props.showPopup('gameSettings')
   }
 

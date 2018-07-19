@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 import './index.scss'
 
-const Header = ({ step }) => <div className="df jcsa header">Round {step}</div>
+const Header = ({ step }) => <div className="df jcsa header">Round {step || null}</div>
 
 const mapStateToProps = ({ easyGame }) => {
   const { step } = easyGame.game
