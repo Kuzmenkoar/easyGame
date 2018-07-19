@@ -16,12 +16,8 @@ export const checkForFinishSaga = function*() {
     step: easyGame.game.step,
   }))
 
-  try {
-    if (step > totalGames) {
-      yield put(showPopup('gameResult'))
-    }
-  } catch (error) {
-    console.error(error)
+  if (step > totalGames) {
+    yield put(showPopup('gameResult'))
   }
 }
 
