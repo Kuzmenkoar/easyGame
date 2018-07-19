@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux'
 import { reducer as form } from 'redux-form'
-import authorizationReducer, { moduleName as authorization } from '../ducks/authorization'
-import peopleReducer, { moduleName as people } from '../ducks/people'
+import popupReducer, { moduleName as popup } from '../ducks/popup/reducer'
+import easyGameReducer, { moduleName as easyGame } from '../ducks/easyGame/reducer'
 
 export default combineReducers({
   form,
-  [authorization]: authorizationReducer,
-  [people]: peopleReducer,
+  [popup]: popupReducer,
+  [easyGame]: easyGameReducer,
 })

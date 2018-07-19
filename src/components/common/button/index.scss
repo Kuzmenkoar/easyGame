@@ -1,0 +1,14 @@
+.button {
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 120px;
+  height: 60px;
+
+  &.--danger {
+    background-color: red;
+  }
+  &.--default {
+    background-color: green;
+  }
+}
