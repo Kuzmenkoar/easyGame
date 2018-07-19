@@ -14,7 +14,7 @@ const GameResult = ({ closePopup, rightChoices, totalGames, showPopup }) => {
       </div>
 
       <div className="button-container">
-        <Button type="danger" onClick={() => showPopup('gameSettings')} label="Restart" />
+        <Button type="danger" onClick={() => showPopup('gameSettings')} label="GameSettings" />
         <Button type="default" onClick={closePopup} label="Close" />
       </div>
     </div>

@@ -1,5 +1,6 @@
 import { all, put, takeEvery, select } from 'redux-saga/effects'
-import { INCREASE_SCORE_POINT, SELECT_SQUARE, START_GAME } from './constant'
+import { delay } from 'redux-saga'
+import { INCREASE_SCORE_POINT, SELECT_SQUARE, START_GAME, STEP_TIMEOUT } from './constant'
 import { closePopupSaga } from '../popup/saga'
 import { showPopup } from '../popup/action'
 
@@ -31,9 +32,27 @@ export const validateSelectedSquareSaga = function*(action) {
 }
 
 export const stepTimeoutSaga = function*() {
-  const { step } = yield select(({ easyGame: { game: { step } } }) => ({
-    step,
+  const { step, timePerGame, totalGames } = yield select(({ easyGame }) => ({
+    step: easyGame.game.step,
+    timePerGame: easyGame.settings.timePerGame,
+    totalGames: easyGame.settings.totalGames,
   }))
+
+  if (step > totalGames) {
+    return
+  }
+
+  yield delay(timePerGame)
+
+  const { nextStep } = yield select(({ easyGame: { game: { step } } }) => ({
+    nextStep: step,
+  }))
+
+  if (step === nextStep) {
+    yield put({
+      type: STEP_TIMEOUT,
+    })
+  }
 }
 
 export const saga = function*() {
@@ -42,5 +61,8 @@ export const saga = function*() {
     takeEvery(SELECT_SQUARE, checkForFinishSaga),
     takeEvery(SELECT_SQUARE, stepTimeoutSaga),
     takeEvery(START_GAME, closePopupSaga),
+    takeEvery(START_GAME, stepTimeoutSaga),
+    takeEvery(STEP_TIMEOUT, stepTimeoutSaga),
+    takeEvery(STEP_TIMEOUT, checkForFinishSaga),
   ])
 }

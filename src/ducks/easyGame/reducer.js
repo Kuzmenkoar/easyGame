@@ -1,6 +1,6 @@
 import { Record } from 'immutable'
 import { combineReducers } from 'redux'
-import { INCREASE_SCORE_POINT, SELECT_SQUARE, START_GAME } from './constant'
+import { INCREASE_SCORE_POINT, SELECT_SQUARE, START_GAME, STEP_TIMEOUT } from './constant'
 
 export const moduleName = 'easyGame'
 export const SETTINGS = 'settings'
@@ -9,7 +9,7 @@ export const RESULT = 'result'
 
 const initialState = {
   [SETTINGS]: Record({
-    totalGames: 1,
+    totalGames: 2,
     timePerGame: 1000,
   }),
   [GAME]: Record({
@@ -39,6 +39,7 @@ function gameReducer(state = new initialState[GAME](), action) {
     case START_GAME:
       return state.set('step', 1)
 
+    case STEP_TIMEOUT:
     case SELECT_SQUARE:
       return state.set('step', state.get('step') + 1)
 
